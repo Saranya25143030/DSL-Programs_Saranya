@@ -1,0 +1,35 @@
+from pyspark.sql.functions import *
+data1 = [
+    ("sai","chn",40),
+    ("zeyo","chn",30),
+    ("sai","hyd",10),
+    ("zeyo","hyd",20),
+    ("sai","chn",30),
+    ("zeyo","hyd",20)
+]
+myschema1 = ["name","city","amt"]
+df1 = spark.createDataFrame(data1, schema=myschema1)
+df1.show()
+
+simpleagg= df1.agg(sum("amt").alias("Total"))
+simpleagg.show()
+
+agg = df1.groupBy("name").agg(
+                                sum("amt").alias(("total")),
+                                count("amt").alias("count"),
+                                collect_list("amt").alias("collect_amt")
+                            )
+agg.show()
+
+agg_city = df1.groupBy("name","city").agg(
+
+    sum("amt").alias(("total")),
+    count("amt").alias("count"),
+    collect_list("amt").alias("collect_amt"),
+    collect_set("amt").alias("collect_set")
+
+)
+agg_city.show()
+
+
+
