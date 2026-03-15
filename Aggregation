@@ -31,5 +31,8 @@ agg_city = df1.groupBy("name","city").agg(
 )
 agg_city.show()
 
+Input
+
+
 
 
